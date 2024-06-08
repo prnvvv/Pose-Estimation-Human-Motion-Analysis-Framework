@@ -2,6 +2,10 @@ import cv2
 import mediapipe as mp
 import time
 
+mpPose = mp.solutions.pose
+Pose = mpPose.Pose()
+mpDraw = mp.solutions.drawing_utils
+
 capture = cv2.VideoCapture(0)
 
 if capture.isOpened == 0:
@@ -14,6 +18,15 @@ previousTime = 0
 while True:
     success, image = capture.read()
     
+    imgRGB = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    results = Pose.process(imgRGB)
+    
+    landmarks = results.pose_landmarks
+    if landmarks:
+        for landmark in landmarks:
+            mpDraw.draw_landmarks(image, landmarks, mpPose.POSE_CONNECTIONS)
+
     currentTime = time.time()
     fps = 1 /( currentTime - previousTime )
     previousTime = currentTime
