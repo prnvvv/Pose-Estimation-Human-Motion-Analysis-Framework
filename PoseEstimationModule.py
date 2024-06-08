@@ -3,7 +3,7 @@ import mediapipe as mp
 import time
 
 class PoseDetector:
-    def __init__(self):
+    def __init__(self, static_image_mode=False, model_complexity=1, enable_segmentation=False, min_detection_confidence=0.5, min_tracking_confidence=0.5):
         self.cap = cv2.VideoCapture(0)
 
         if not self.cap.isOpened():
@@ -11,7 +11,13 @@ class PoseDetector:
             exit()
 
         self.mpPose = mp.solutions.pose
-        self.pose = self.mpPose.Pose()
+        self.pose = self.mpPose.Pose(
+            static_image_mode=static_image_mode,
+            model_complexity=model_complexity,
+            enable_segmentation=enable_segmentation,
+            min_detection_confidence=min_detection_confidence,
+            min_tracking_confidence=min_tracking_confidence
+        )
         self.mpDraw = mp.solutions.drawing_utils
 
     def detect_pose(self):
@@ -50,5 +56,5 @@ class PoseDetector:
         cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    pose_detector = PoseDetector()
+    pose_detector = PoseDetector(static_image_mode=False, model_complexity=1, enable_segmentation=False, min_detection_confidence=0.7, min_tracking_confidence=0.7)
     pose_detector.detect_pose()
