@@ -56,5 +56,5 @@ class PoseDetector:
         cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    pose_detector = PoseDetector(static_image_mode=False, model_complexity=1, enable_segmentation=False, min_detection_confidence=0.7, min_tracking_confidence=0.7)
+    pose_detector = PoseDetector()
     pose_detector.detect_pose()
